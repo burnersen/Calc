@@ -1,0 +1,3 @@
+# Gebaute Release-Dateien (php tools/build-release.php)
+/dist/
+node_modules/

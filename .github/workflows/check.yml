@@ -1,0 +1,26 @@
+# Prüft jeden Push und jeden Pull Request: Dateiliste im Service Worker, Tests, Installer bauen.
+# Lokal geht genau dasselbe mit: php tools/build-release.php   (siehe BUILD.md)
+name: Prüfen
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: zip
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Bauen und testen
+        run: php tools/build-release.php

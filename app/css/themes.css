@@ -1,0 +1,226 @@
+/* Calc – die Designs.
+   Jedes Design setzt dieselben Variablen. Die Farben mit -bg/-fg sind schlichte Hex-Werte, damit tests/run.js den Kontrast prüfen kann
+   (Schrift mindestens 4,5:1, Anzeige 7:1). Wer es aufwendiger will (Verlauf, Glas), setzt zusätzlich -paint.
+   Der Farbmischer (theme.js) überschreibt einzelne Variablen direkt am <html>. */
+
+@font-face { font-family: 'Inter'; src: url('../fonts/inter.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url('../fonts/manrope.woff2') format('woff2'); font-weight: 200 800; font-display: swap; }
+@font-face { font-family: 'Space Grotesk'; src: url('../fonts/space-grotesk.woff2') format('woff2'); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono'; src: url('../fonts/jetbrains-mono.woff2') format('woff2'); font-weight: 100 800; font-display: swap; }
+@font-face { font-family: 'DSEG7'; src: url('../fonts/dseg7-classic.woff2') format('woff2'); font-display: block; }
+@font-face { font-family: 'DSEG7M'; src: url('../fonts/dseg7-modern.woff2') format('woff2'); font-display: block; }
+@font-face { font-family: 'DSEG14'; src: url('../fonts/dseg14-classic.woff2') format('woff2'); font-display: block; }
+@font-face { font-family: 'DSEG14M'; src: url('../fonts/dseg14-modern.woff2') format('woff2'); font-display: block; }
+
+/* Grundwerte für jedes Design: ohne eigene Malfarbe gilt die schlichte Farbe. Steht vor allen Designs, damit sie es überschreiben. */
+[data-theme] {
+    --num-paint: var(--num-bg); --op-paint: var(--op-bg); --fn-paint: var(--fn-bg); --eq-paint: var(--eq-bg); --del-paint: var(--del-bg);
+    --mod-paint: var(--mod-bg); --disp-paint: var(--disp-bg);
+    --fn-shadow: var(--key-shadow); --fn-shadow-down: var(--key-shadow-down); --del-shadow: var(--key-shadow);
+    --disp-shadow: none; --disp-glow: none; --ghost: 0; --press-y: 0px; --press-scale: .96; --body-blur: none; --lcd: 0;
+    --radius-disp: 18px; --disp-weight: 300;
+    --ui-font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --disp-font: 'Inter', system-ui, sans-serif; --expr-font: 'Inter', system-ui, sans-serif;
+    --tape-font: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* ---------- Klar: hell, luftig, ruhig ---------- */
+:root, [data-theme="klar"] {
+    color-scheme: light;
+    --bg: #e9edf3; --bg-paint: radial-gradient(120% 80% at 50% 0%, #f6f8fb 0%, #e9edf3 60%, #dfe5ee 100%);
+    --body: #f7f9fc; --body-solid: #f7f9fc; --body-paint: #f7f9fc;
+    --disp-bg: #f7f9fc; --disp-fg: #0b1220; --disp-dim: #5d6779;
+    --num-bg: #ffffff; --num-fg: #0b1220;
+    --fn-bg: #e8edf4; --fn-fg: #1e2a3b;
+    --op-bg: #dfe9ff; --op-fg: #1d4ed8;
+    --eq-bg: #2563eb; --eq-fg: #ffffff;
+    --del-bg: #fde7e7; --del-fg: #b42318;
+    --mod-bg: #e8edf4; --mod-fg: #1d4ed8;
+    --alt: #2563eb;
+    --acc: #2563eb; --acc-fg: #ffffff;
+    --text: #0b1220; --muted: #586174; --card: #ffffff; --line: #e1e6ee; --danger: #c81e1e;
+    --tape-bg: #ffffff; --tape-ink: #1a2433; --tape-neg: #c81e1e; --tape-dim: #5d6779;
+    --ui-font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --disp-font: 'Inter', system-ui, sans-serif; --disp-weight: 300; --expr-font: 'Inter', system-ui, sans-serif;
+    --tape-font: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+    --radius-key: 18px; --radius-body: 28px; --radius-disp: 18px;
+    --key-border: 0 0 0 1px rgba(15, 23, 42, .04);
+    --key-shadow: 0 1px 1px rgba(15, 23, 42, .05), 0 2px 6px rgba(15, 23, 42, .06);
+    --key-shadow-down: 0 0 0 rgba(0, 0, 0, 0), inset 0 1px 3px rgba(15, 23, 42, .12);
+    --body-shadow: 0 30px 80px -30px rgba(15, 30, 60, .35), 0 2px 6px rgba(15, 30, 60, .06);
+    --disp-shadow: none; --disp-glow: none; --ghost: 0;
+}
+[data-theme="klar"] { --eq-paint: linear-gradient(180deg, #3b74f0, #2563eb); }
+
+/* ---------- Nacht: tiefes Dunkel, warmes Bernstein ---------- */
+[data-theme="nacht"] {
+    color-scheme: dark;
+    --bg: #040507; --bg-paint: radial-gradient(100% 70% at 50% 0%, #13161c 0%, #07080b 55%, #040507 100%);
+    --body: #0c0e12; --body-solid: #0c0e12; --body-paint: #0c0e12;
+    --disp-bg: #0c0e12; --disp-fg: #f7f7f5; --disp-dim: #8d939d;
+    --num-bg: #1d2027; --num-fg: #f4f4f5;
+    --fn-bg: #2b2f38; --fn-fg: #f4f4f5;
+    --op-bg: #2d2412; --op-fg: #fbbf24;
+    --eq-bg: #f59e0b; --eq-fg: #1a1105; --eq-paint: linear-gradient(180deg, #fbb53a, #f59e0b);
+    --del-bg: #3a1b1d; --del-fg: #fca5a5;
+    --mod-bg: #2b2f38; --mod-fg: #fbbf24;
+    --alt: #fbbf24;
+    --acc: #f59e0b; --acc-fg: #1a1105;
+    --text: #f4f4f5; --muted: #a3a6ad; --card: #15171c; --line: #262a31; --danger: #f87171;
+    --tape-bg: #111318; --tape-ink: #ecebe8; --tape-neg: #f87171; --tape-dim: #9a9ea8;
+    --disp-weight: 200;
+    --radius-key: 999px; --radius-body: 32px;
+    --key-border: 0 0 0 1px rgba(255, 255, 255, .03);
+    --key-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+    --key-shadow-down: inset 0 2px 6px rgba(0, 0, 0, .5);
+    --body-shadow: 0 30px 80px -20px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .04);
+}
+
+/* ---------- Aurora: Nordlicht hinter Glas ---------- */
+[data-theme="aurora"] {
+    color-scheme: dark;
+    --bg: #0a0720;
+    --bg-paint:
+        radial-gradient(55% 45% at 15% 10%, rgba(124, 58, 237, .55) 0%, rgba(124, 58, 237, 0) 70%),
+        radial-gradient(50% 45% at 90% 25%, rgba(13, 148, 136, .45) 0%, rgba(13, 148, 136, 0) 70%),
+        radial-gradient(60% 50% at 60% 100%, rgba(219, 39, 119, .40) 0%, rgba(219, 39, 119, 0) 70%),
+        #0a0720;
+    --body: #151131; --body-solid: #151131; --body-paint: rgba(22, 17, 52, .42);
+    --body-blur: blur(28px) saturate(140%);
+    --disp-bg: #151131; --disp-fg: #ffffff; --disp-dim: #b8b0e6; --disp-paint: transparent;
+    --num-bg: #2a2452; --num-fg: #f5f3ff; --num-paint: rgba(255, 255, 255, .08);
+    --fn-bg: #221d46; --fn-fg: #e4ddff; --fn-paint: rgba(255, 255, 255, .045);
+    --op-bg: #3b2c70; --op-fg: #f0e6ff; --op-paint: rgba(167, 139, 250, .24);
+    --eq-bg: #b4237a; --eq-fg: #ffffff; --eq-paint: linear-gradient(135deg, #db2777 0%, #7c3aed 100%);
+    --del-bg: #4a1d3f; --del-fg: #fbcfe8; --del-paint: rgba(244, 114, 182, .2);
+    --mod-bg: #221d46; --mod-fg: #f0abfc; --mod-paint: rgba(255, 255, 255, .045);
+    --alt: #f0abfc;
+    --acc: #a78bfa; --acc-fg: #1b0f3a;
+    --text: #f5f3ff; --muted: #bdb6e0; --card: #1a1540; --line: #2f295c; --danger: #fda4af;
+    --tape-bg: #17133a; --tape-ink: #efeaff; --tape-neg: #fda4af; --tape-dim: #aaa3d4;
+    --disp-font: 'Manrope', system-ui, sans-serif; --disp-weight: 300; --expr-font: 'Manrope', system-ui, sans-serif;
+    --ui-font: 'Manrope', system-ui, sans-serif;
+    --radius-key: 20px; --radius-body: 34px;
+    --key-border: inset 0 0 0 1px rgba(255, 255, 255, .10);
+    --key-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 8px 20px -12px rgba(0, 0, 0, .6);
+    --key-shadow-down: inset 0 0 0 1px rgba(255, 255, 255, .2), inset 0 2px 10px rgba(0, 0, 0, .35);
+    --body-shadow: 0 40px 100px -30px rgba(0, 0, 0, .8), inset 0 0 0 1px rgba(255, 255, 255, .10);
+    --disp-glow: 0 0 30px rgba(196, 181, 253, .25);
+}
+
+/* ---------- Schulrechner: der Klassiker aus dem Mathe-Unterricht ---------- */
+[data-theme="schule"] {
+    color-scheme: light;
+    --bg: #b9bec6; --bg-paint: radial-gradient(120% 90% at 50% 10%, #d6d9de 0%, #b9bec6 60%, #a3a9b3 100%);
+    --body: #2c3340; --body-solid: #2c3340; --body-paint: linear-gradient(180deg, #3b4352 0%, #2c3340 18%, #262c37 100%);
+    --disp-bg: #c2ccb0; --disp-fg: #161b12; --disp-dim: #4a5440;
+    --disp-paint: linear-gradient(180deg, #b9c4a6 0%, #c6d0b4 30%, #c2ccb0 100%);
+    --num-bg: #e6e6e0; --num-fg: #1b1d20; --num-paint: linear-gradient(180deg, #f1f1ec, #dcdcd5);
+    --op-bg: #e6e6e0; --op-fg: #1b1d20; --op-paint: linear-gradient(180deg, #f1f1ec, #dcdcd5);
+    --fn-bg: #1a1f27; --fn-fg: #f1f3f5; --fn-paint: linear-gradient(180deg, #2a303b, #161a21);
+    --eq-bg: #e6e6e0; --eq-fg: #1b1d20; --eq-paint: linear-gradient(180deg, #f1f1ec, #dcdcd5);
+    --del-bg: #e2772d; --del-fg: #1a0c03; --del-paint: linear-gradient(180deg, #f08a3e, #d86920);
+    --mod-bg: #e7b93e; --mod-fg: #1b1d20; --mod-paint: linear-gradient(180deg, #f3c955, #d9a82c);
+    --alt: #f2c14e;
+    --acc: #f2c14e; --acc-fg: #1b1d20;
+    --text: #1b1e23; --muted: #50565f; --card: #f3f4f1; --line: #d3d6cd; --danger: #b42318;
+    --tape-bg: #fbfaf5; --tape-ink: #1d2126; --tape-neg: #b42318; --tape-dim: #5b6169;
+    --disp-font: 'DSEG7', 'JetBrains Mono', monospace; --disp-weight: 400; --expr-font: 'JetBrains Mono', ui-monospace, monospace;
+    --ui-font: 'Inter', system-ui, sans-serif;
+    --radius-key: 9px; --radius-body: 26px; --radius-disp: 6px;
+    --key-border: inset 0 1px 0 rgba(255, 255, 255, .55);
+    --key-shadow: 0 3px 0 #8f9088, 0 5px 8px rgba(0, 0, 0, .45);
+    --key-shadow-down: 0 1px 0 #8f9088, 0 2px 3px rgba(0, 0, 0, .45);
+    --fn-shadow: 0 3px 0 #07090c, 0 5px 8px rgba(0, 0, 0, .5);
+    --fn-shadow-down: 0 1px 0 #07090c, 0 2px 3px rgba(0, 0, 0, .5);
+    --del-shadow: 0 3px 0 #8a3d0c, 0 5px 8px rgba(0, 0, 0, .45);
+    --body-shadow: 0 40px 80px -30px rgba(20, 25, 35, .8), inset 0 1px 0 rgba(255, 255, 255, .12), inset 0 -2px 0 rgba(0, 0, 0, .3);
+    --disp-shadow: inset 0 3px 6px rgba(0, 0, 0, .35), inset 0 0 0 2px #1c2028, 0 0 0 5px #1d222b;
+    --ghost: .07;
+    --press-y: 2px; --press-scale: 1;
+    --lcd: 1;
+}
+
+/* ---------- Retro: Leuchtanzeige im Holzgehäuse, 1978 ---------- */
+[data-theme="retro"] {
+    color-scheme: dark;
+    --bg: #1b1410;
+    --bg-paint: repeating-linear-gradient(92deg, rgba(255, 255, 255, .018) 0 2px, rgba(0, 0, 0, .03) 2px 7px), radial-gradient(120% 80% at 50% 0%, #3a2a1f 0%, #1b1410 70%);
+    --body: #2a221d; --body-solid: #2a221d; --body-paint: linear-gradient(180deg, #3a312b 0%, #2a221d 30%, #221b17 100%);
+    --disp-bg: #040706; --disp-fg: #6dffe0; --disp-dim: #3a9c88; --disp-paint: radial-gradient(120% 140% at 50% 0%, #0b1513 0%, #030505 70%);
+    --num-bg: #e9dcc3; --num-fg: #2a2018; --num-paint: linear-gradient(180deg, #f3e8d2, #ddcdb0);
+    --op-bg: #b05428; --op-fg: #fff7ec; --op-paint: linear-gradient(180deg, #c2643a, #a24a20);
+    --fn-bg: #4a3f37; --fn-fg: #f3e7d3; --fn-paint: linear-gradient(180deg, #574a40, #40362f);
+    --eq-bg: #d9a441; --eq-fg: #2a2018; --eq-paint: linear-gradient(180deg, #e6b453, #c99434);
+    --del-bg: #8c2f1f; --del-fg: #fff1e6; --del-paint: linear-gradient(180deg, #9e3a28, #7f2817);
+    --mod-bg: #d9a441; --mod-fg: #2a2018;
+    --alt: #e8b04a;
+    --acc: #e8b04a; --acc-fg: #2a2018;
+    --text: #f3e7d3; --muted: #bfae94; --card: #241e1a; --line: #3d342d; --danger: #ff8f7a;
+    --tape-bg: #f4ecdc; --tape-ink: #2a2018; --tape-neg: #a0301c; --tape-dim: #6b5b48;
+    --disp-font: 'DSEG7M', 'JetBrains Mono', monospace; --disp-weight: 400; --expr-font: 'DSEG14M', 'JetBrains Mono', monospace;
+    --radius-key: 7px; --radius-body: 18px; --radius-disp: 8px;
+    --key-border: inset 0 1px 0 rgba(255, 255, 255, .35);
+    --key-shadow: 0 4px 0 rgba(0, 0, 0, .55), 0 6px 10px rgba(0, 0, 0, .45);
+    --key-shadow-down: 0 1px 0 rgba(0, 0, 0, .55), 0 2px 4px rgba(0, 0, 0, .45);
+    --body-shadow: 0 40px 90px -30px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .08);
+    --disp-shadow: inset 0 4px 14px rgba(0, 0, 0, .9), 0 0 0 3px #12100e, 0 0 0 6px #6e655b;
+    --disp-glow: 0 0 6px rgba(109, 255, 224, .75), 0 0 22px rgba(109, 255, 224, .35);
+    --ghost: .06;
+    --press-y: 3px; --press-scale: 1;
+    --lcd: 1;
+}
+
+/* ---------- Papier: warmes Büro, Tinte und Farbband ---------- */
+[data-theme="papier"] {
+    color-scheme: light;
+    --bg: #e6dfd1; --bg-paint: radial-gradient(120% 90% at 50% 0%, #f1ebdf 0%, #e6dfd1 60%, #d9d0bf 100%);
+    --body: #f6f1e7; --body-solid: #f6f1e7; --body-paint: linear-gradient(180deg, #faf6ee, #f2ecdf);
+    --disp-bg: #e1e4d4; --disp-fg: #1a2216; --disp-dim: #565e4d;
+    --disp-paint: linear-gradient(180deg, #dadecb, #e4e7d8);
+    --num-bg: #fffdf8; --num-fg: #2a2723;
+    --fn-bg: #e9e0cd; --fn-fg: #3a3229;
+    --op-bg: #efe6d3; --op-fg: #1f3a68;
+    --eq-bg: #1f3a68; --eq-fg: #fffdf8;
+    --del-bg: #f3d9d2; --del-fg: #962b1e;
+    --mod-bg: #e9e0cd; --mod-fg: #1f3a68;
+    --alt: #1f3a68;
+    --acc: #1f3a68; --acc-fg: #ffffff;
+    --text: #2a2723; --muted: #675e52; --card: #fffdf8; --line: #e2d8c4; --danger: #b3261e;
+    --tape-bg: #fffdf5; --tape-ink: #22262d; --tape-neg: #b3261e; --tape-dim: #6a6153;
+    --disp-weight: 450;
+    --radius-key: 12px; --radius-body: 22px; --radius-disp: 10px;
+    --key-border: inset 0 0 0 1px rgba(80, 60, 30, .10);
+    --key-shadow: 0 1px 0 rgba(80, 60, 30, .18), 0 2px 5px rgba(80, 60, 30, .10);
+    --key-shadow-down: inset 0 1px 3px rgba(80, 60, 30, .25);
+    --body-shadow: 0 30px 70px -30px rgba(70, 50, 20, .45), 0 1px 0 rgba(255, 255, 255, .8) inset;
+    --disp-shadow: inset 0 2px 4px rgba(40, 50, 30, .22), 0 0 0 1px rgba(80, 60, 30, .15);
+}
+
+/* ---------- Kontrast: Schwarz, Weiß, Signalgelb ---------- */
+[data-theme="kontrast"] {
+    color-scheme: dark;
+    --bg: #000000; --bg-paint: #000000;
+    --body: #000000; --body-solid: #000000; --body-paint: #000000;
+    --disp-bg: #000000; --disp-fg: #ffffff; --disp-dim: #d6d6d6;
+    --num-bg: #000000; --num-fg: #ffffff;
+    --fn-bg: #1c1c1c; --fn-fg: #ffffff;
+    --op-bg: #ffd60a; --op-fg: #000000;
+    --eq-bg: #ffffff; --eq-fg: #000000;
+    --del-bg: #ff5a5a; --del-fg: #000000;
+    --mod-bg: #1c1c1c; --mod-fg: #ffd60a;
+    --alt: #ffd60a;
+    --acc: #ffd60a; --acc-fg: #000000;
+    --text: #ffffff; --muted: #d4d4d4; --card: #0a0a0a; --line: #ffffff; --danger: #ff8080;
+    --tape-bg: #000000; --tape-ink: #ffffff; --tape-neg: #ff8a8a; --tape-dim: #d0d0d0;
+    --ui-font: 'Space Grotesk', system-ui, sans-serif;
+    --disp-font: 'Space Grotesk', system-ui, sans-serif; --disp-weight: 600; --expr-font: 'Space Grotesk', system-ui, sans-serif;
+    --radius-key: 14px; --radius-body: 0px; --radius-disp: 0px;
+    --key-border: inset 0 0 0 2px #ffffff;
+    --key-shadow: 0 0 #0000;
+    --key-shadow-down: inset 0 0 0 4px #ffd60a;
+    --body-shadow: none;
+    --press-scale: .97;
+    --focus: #ffd60a;
+}
+[data-theme="kontrast"] .k.op, [data-theme="kontrast"] .k.eq, [data-theme="kontrast"] .k.del { --key-border: 0 0 #0000; }

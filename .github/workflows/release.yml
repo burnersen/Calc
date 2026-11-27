@@ -1,0 +1,76 @@
+# Baut die Release-Dateien (Installer, ZIP, Prüfsummen) und hängt sie an ein GitHub-Release.
+#
+# Zwei Wege:
+#   1. Von Hand: Actions → Release → "Run workflow". Ohne Angabe heißt der Tag wie die Version aus index.html, z. B. 1.0.0.
+#   2. Automatisch, sobald ein Tag wie 1.0.0 (oder v1.0.0) gepusht wird.
+# Gibt es das Release zu dem Tag schon, werden die Dateien nur angehängt bzw. ersetzt.
+# Text fürs Release: docs/release-notes/<Version>.md (sonst automatisch aus den Commits).
+name: Release
+
+on:
+  push:
+    tags: ['[0-9]*', 'v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag für das Release (leer = Version aus index.html, z. B. 1.0.0)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: zip
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Tag bestimmen
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            TAG="$GITHUB_REF_NAME"
+          elif [ -n "$INPUT_TAG" ]; then
+            TAG="$INPUT_TAG"
+          else
+            TAG="$(sed -n 's/.*<meta name="calc-version" content="\([^"]*\)">.*/\1/p' index.html)"
+          fi
+          case "$TAG" in
+            *[!A-Za-z0-9._-]*|'') echo "Ungültiger Tag: $TAG"; exit 1 ;;
+          esac
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+          git fetch --tags --quiet
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            git checkout --quiet "refs/tags/$TAG"
+            echo "TAG_EXISTS=1" >> "$GITHUB_ENV"
+          fi
+      - name: Dateien bauen
+        run: php tools/build-release.php
+      - name: Release anlegen oder ergänzen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NAME="Calc ${TAG#v}"
+          NOTES="docs/release-notes/${TAG#v}.md"
+          FILES="dist/calc-install.php dist/calc-*.zip dist/SHA256SUMS"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" $FILES --clobber
+          else
+            if [ -z "$TAG_EXISTS" ]; then git tag "$TAG" && git push origin "refs/tags/$TAG"; fi
+            if [ -f "$NOTES" ]; then
+              gh release create "$TAG" $FILES --title "$NAME" --notes-file "$NOTES" --verify-tag
+            else
+              gh release create "$TAG" $FILES --title "$NAME" --generate-notes --verify-tag
+            fi
+          fi
