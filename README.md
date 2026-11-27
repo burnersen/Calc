@@ -39,7 +39,7 @@ Calc ist eine Web-App zum Installieren (PWA). Einmal geöffnet, liegt alles auf 
 
 <p align="center"><img src="docs/de/computer.png" alt="Büro-Modus am Computer: Papierstreifen links, Tischrechner rechts" width="820"><br><sub>Am Computer: Streifen links, Tischrechner rechts, alles per Tastatur bedienbar</sub></p>
 
-<sub>Screenshots von Version 1.0.0. Die Rechnungen sind erfunden.</sub>
+<sub>Screenshots von Version 1.0.1. Die Rechnungen sind erfunden.</sub>
 
 > 💜 **Gefällt dir Calc?** Ein ⭐ auf GitHub ist die einfachste Art, mir das zu sagen. Oder [erzähl mir, wofür du es nutzt](../../issues/new), ich lese jede Nachricht. Danke, dass du da bist!
 

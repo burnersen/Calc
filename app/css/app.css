@@ -65,16 +65,17 @@ dialog .sh-head .ib:focus-visible { outline-color: transparent; box-shadow: 0 0 
 .view { display: none; min-height: 0; min-width: 0; place-items: center; }
 .view.on { display: grid; }
 .calc {
-    --gap: clamp(6px, 1.6cqmin, 12px);
+    --gap: clamp(6px, 1.7cqmin, 20px);
     width: 100%; height: 100%; min-height: 0; min-width: 0; display: grid; gap: var(--gap);
     padding: 4px clamp(8px, 2.6cqw, 16px) clamp(8px, 2.4cqh, 16px); position: relative;
 }
-/* Ab Tablet-Größe: der Rechner als Gerät auf dem Tisch */
-@media (min-width: 600px) and (min-height: 640px) {
+/* Am Computer (Maus): der Rechner als Gerät auf dem Tisch, so groß, wie das Fenster es hergibt.
+   Am Handy und Tablet (Finger) füllt er immer den ganzen Bildschirm. */
+@media (pointer: fine) and (min-width: 760px) and (min-height: 560px) {
     #app { background: transparent; }
-    #stage { padding: 6px 24px 28px; }
+    #stage { padding: 4px 28px 28px; }
     .calc {
-        width: min(100%, var(--max-w)); height: min(100%, var(--max-h)); padding: 22px;
+        width: 100%; height: 100%; padding: clamp(16px, 2.4cqmin, 34px);
         background: var(--body-paint, var(--body)); border-radius: var(--radius-body); box-shadow: var(--body-shadow);
         -webkit-backdrop-filter: var(--body-blur, none); backdrop-filter: var(--body-blur, none);
     }
@@ -83,6 +84,17 @@ dialog .sh-head .ib:focus-visible { outline-color: transparent; box-shadow: 0 0 
     [data-theme="schule"] .seg button, [data-theme="retro"] .seg button { color: var(--fn-fg); }
     [data-theme="schule"] .seg { background: #2c3340; }
     [data-theme="retro"] .seg { background: #2a221d; }
+}
+
+@media (min-width: 700px) and (min-height: 700px) {
+    .bar { min-height: 66px; padding: 10px 16px 8px; }
+    .seg { max-width: 600px; }
+    .seg button { font-size: 16px; padding: 10px 8px; }
+    .bar .ib { width: 48px; height: 48px; }
+    .bar svg.i { width: 26px; height: 26px; }
+}
+@media (pointer: coarse) and (min-width: 700px) and (min-height: 700px) {
+    .calc { padding: 6px clamp(14px, 2.4cqw, 28px) clamp(14px, 2.4cqh, 28px); }
 }
 
 /* ---------- Tasten ---------- */
@@ -96,7 +108,7 @@ dialog .sh-head .ib:focus-visible { outline-color: transparent; box-shadow: 0 0 
     --kshadow: var(--key-shadow); --kshadow-down: var(--key-shadow-down);
     position: relative; isolation: isolate; appearance: none; border: 0; margin: 0; padding: 0; min-width: 0; min-height: 0;
     background: transparent; color: var(--kfg); cursor: pointer; touch-action: manipulation; outline: none;
-    font-size: clamp(15px, min(calc(100cqh / var(--rows) * var(--kfs, .4)), calc(100cqw / var(--cols) * .36)), 34px);
+    font-size: clamp(15px, min(calc(100cqh / var(--rows) * var(--kfs, .4)), calc(100cqw / var(--cols) * .36)), 68px);
     font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums;
 }
 .k::before {
@@ -116,9 +128,9 @@ dialog .sh-head .ib:focus-visible { outline-color: transparent; box-shadow: 0 0 
 .k .sub { bottom: 0; height: 32%; font-size: .38em; font-weight: 600; letter-spacing: .02em; opacity: .75; white-space: nowrap; }
 .k.has-sub .lb { bottom: 26%; }
 .k.num { --kbg: var(--num-bg); --kfg: var(--num-fg); --kpaint: var(--num-paint, var(--num-bg)); }
-.k.op { --kbg: var(--op-bg); --kfg: var(--op-fg); --kpaint: var(--op-paint, var(--op-bg)); font-size: clamp(17px, min(calc(100cqh / var(--rows) * .46), calc(100cqw / var(--cols) * .4)), 38px); }
+.k.op { --kbg: var(--op-bg); --kfg: var(--op-fg); --kpaint: var(--op-paint, var(--op-bg)); font-size: clamp(17px, min(calc(100cqh / var(--rows) * .46), calc(100cqw / var(--cols) * .4)), 76px); }
 .k.fn { --kbg: var(--fn-bg); --kfg: var(--fn-fg); --kpaint: var(--fn-paint, var(--fn-bg)); --kshadow: var(--fn-shadow, var(--key-shadow)); --kshadow-down: var(--fn-shadow-down, var(--key-shadow-down)); }
-.k.eq { --kbg: var(--eq-bg); --kfg: var(--eq-fg); --kpaint: var(--eq-paint, var(--eq-bg)); font-size: clamp(18px, min(calc(100cqh / var(--rows) * .5), calc(100cqw / var(--cols) * .42)), 40px); }
+.k.eq { --kbg: var(--eq-bg); --kfg: var(--eq-fg); --kpaint: var(--eq-paint, var(--eq-bg)); font-size: clamp(18px, min(calc(100cqh / var(--rows) * .5), calc(100cqw / var(--cols) * .42)), 80px); }
 .k.del { --kbg: var(--del-bg); --kfg: var(--del-fg); --kpaint: var(--del-paint, var(--del-bg)); --kshadow: var(--del-shadow, var(--key-shadow)); font-weight: 600; }
 .k.mod { --kbg: var(--mod-bg); --kfg: var(--mod-fg); --kpaint: var(--mod-paint, var(--mod-bg)); --kshadow: var(--fn-shadow, var(--key-shadow)); --kshadow-down: var(--fn-shadow-down, var(--key-shadow-down)); font-weight: 700; }
 .k[aria-pressed="true"] { --kpaint: var(--acc); --kfg: var(--acc-fg); }
@@ -135,8 +147,8 @@ dialog .sh-head .ib:focus-visible { outline-color: transparent; box-shadow: 0 0 
 .pad.ishyp .k[data-hyp] .lb { color: var(--acc); }
 
 /* Wissenschaftlich: Funktionstasten kleiner beschriftet */
-.fnpad { --kfs: .34; }
-.fnpad .k { font-size: clamp(12px, min(calc(100cqh / var(--rows) * var(--kfs)), calc(100cqw / var(--cols) * .3)), 22px); font-weight: 600; }
+.fnpad { --kfs: .38; }
+.fnpad .k { font-size: clamp(12px, min(calc(100cqh / var(--rows) * var(--kfs)), calc(100cqw / var(--cols) * .33)), 40px); font-weight: 600; }
 .fnpad .k.has-alt .lb { top: .5em; }
 
 /* ---------- Anzeige ---------- */
@@ -198,19 +210,21 @@ dialog .sh-head .ib:focus-visible { outline-color: transparent; box-shadow: 0 0 
 /* ---------- Einfach ---------- */
 .calc .deco { grid-area: deco; }
 .calc .disp { grid-area: disp; }
-.calc.basic { --max-w: 440px; --max-h: 820px; grid-template-areas: "deco" "disp" "pad"; grid-template-rows: auto minmax(110px, 1fr) minmax(0, 2.6fr); }
+.calc.basic { grid-template-areas: "deco" "disp" "pad"; grid-template-rows: auto minmax(110px, 1fr) minmax(0, 2.6fr); }
 .calc.basic .pad { grid-area: pad; --cols: 4; --rows: 5; }
-@container stage (max-height: 540px) and (min-aspect-ratio: 6/5) {
-    .calc.basic { grid-template-areas: "disp pad"; grid-template-rows: minmax(0, 1fr); grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
-    .calc.basic .deco { display: none; }
+/* quer (Handy und Tablet): Anzeige links, Tasten rechts */
+@container stage (min-aspect-ratio: 11/10) {
+    .calc.basic { grid-template-areas: "deco pad" "disp pad"; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
 }
+@container stage (max-height: 540px) and (min-aspect-ratio: 11/10) { .calc.basic .deco { display: none; } }
 
 /* ---------- Wissenschaftlich ---------- */
-.calc.sci { --max-w: 500px; --max-h: 900px; grid-template-areas: "deco" "disp" "fn" "main"; grid-template-rows: auto minmax(96px, 1.25fr) minmax(0, 2.5fr) minmax(0, 2.9fr); }
+.calc.sci { grid-template-areas: "deco" "disp" "fn" "main"; grid-template-rows: auto minmax(96px, 1.25fr) minmax(0, 2.5fr) minmax(0, 2.9fr); }
 .calc.sci .fnpad { grid-area: fn; --cols: 6; --rows: 4; --kgap: clamp(5px, 1.3cqmin, 10px); }
 .calc.sci .main { grid-area: main; --cols: 5; --rows: 4; }
-@container stage (max-height: 620px) and (min-aspect-ratio: 1/1) {
-    .calc.sci { --max-w: 1100px; grid-template-areas: "deco deco" "disp disp" "fn main"; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); grid-template-rows: auto minmax(0, .9fr) minmax(0, 2.6fr); }
+/* quer: Funktionen links, Zahlen rechts, Anzeige darüber */
+@container stage (min-aspect-ratio: 11/10) {
+    .calc.sci { grid-template-areas: "deco deco" "disp disp" "fn main"; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); grid-template-rows: auto minmax(0, .9fr) minmax(0, 2.6fr); }
 }
 @container stage (max-height: 640px) and (max-aspect-ratio: 1/1) { .calc .deco { display: none !important; } }
 @container stage (max-height: 430px) and (min-aspect-ratio: 1/1) { .calc.sci .deco { display: none; } .calc.sci { grid-template-areas: "disp disp" "fn main"; grid-template-rows: minmax(82px, .8fr) minmax(0, 2.8fr); } .calc.sci .disp { padding-top: 6px; padding-bottom: 6px; } }
@@ -225,14 +239,13 @@ dialog .sh-head .ib:focus-visible { outline-color: transparent; box-shadow: 0 0 
 [data-theme="schule"] .fnpad .k { --radius-key: 999px; }
 [data-theme="schule"] .k.num, [data-theme="schule"] .k.op, [data-theme="schule"] .k.eq { font-weight: 600; }
 @container stage (min-aspect-ratio: 1/1000) { [data-theme="schule"] .calc.sci:not(.wide) { grid-template-rows: auto minmax(96px, 1.1fr) minmax(0, 2.9fr) minmax(0, 2.8fr); } }
-@container stage (max-height: 620px) and (min-aspect-ratio: 1/1) { [data-theme="schule"] .calc.sci:not(.wide) { grid-template-rows: auto minmax(0, .9fr) minmax(0, 2.6fr); } }
+@container stage (min-aspect-ratio: 11/10) { [data-theme="schule"] .calc.sci:not(.wide) { grid-template-rows: auto minmax(0, .9fr) minmax(0, 2.6fr); } }
 @container stage (max-height: 430px) and (min-aspect-ratio: 1/1) { [data-theme="schule"] .fnpad .k, [data-theme="retro"] .fnpad .k { --face-inset: 24% 5% 0 5%; --face-top: 24%; } [data-theme="schule"] .fnpad .k .alt, [data-theme="retro"] .fnpad .k .alt { height: 24%; } [data-theme="schule"] .fnpad .k.has-alt .lb, [data-theme="retro"] .fnpad .k.has-alt .lb { top: 24%; } }
 @container stage (max-height: 430px) and (min-aspect-ratio: 1/1) { [data-theme="schule"] .calc.sci:not(.wide) { grid-template-rows: minmax(82px, .8fr) minmax(0, 2.8fr); } }
 [data-theme="schule"] .ind, [data-theme="retro"] .ind { font-family: 'JetBrains Mono', monospace; letter-spacing: .02em; font-weight: 600; }
 
 /* ---------- Büro ---------- */
 .calc.office {
-    --max-w: 1180px; --max-h: 860px;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: minmax(52px, min(calc(var(--tape-h, .36) * 100%), calc(100% - 440px))) 10px auto auto minmax(0, 1fr);
     grid-template-areas: "tape" "handle" "disp" "strip" "pad";
@@ -240,12 +253,12 @@ dialog .sh-head .ib:focus-visible { outline-color: transparent; box-shadow: 0 0 
 .calc.office .deco { display: none; }
 .calc.office .tape { grid-area: tape; }
 .calc.office .handle { grid-area: handle; }
-.calc.office .disp { grid-area: disp; min-height: clamp(92px, 15cqh, 150px); }
-.calc.office .strip { grid-area: strip; --cols: 5; --rows: 2; height: clamp(76px, 13cqh, 112px); --kgap: clamp(4px, 1cqmin, 8px); }
+.calc.office .disp { grid-area: disp; min-height: clamp(92px, 14cqh, 220px); }
+.calc.office .strip { grid-area: strip; --cols: 5; --rows: 2; height: clamp(76px, 12cqh, 170px); --kgap: clamp(4px, 1cqmin, 8px); }
 .calc.office .main { grid-area: pad; --cols: 5; --rows: 5; }
-.calc.office .strip .k { font-size: clamp(12px, min(calc(100cqh / 2 * .36), calc(100cqw / 5 * .2)), 19px); font-weight: 600; }
+.calc.office .strip .k { font-size: clamp(12px, min(calc(100cqh / 2 * .34), calc(100cqw / 5 * .2)), 30px); font-weight: 600; }
 .calc.office .d-res { font-size: var(--fs-res, 46px); }
-@container stage (min-width: 720px) or (min-aspect-ratio: 23/20) {
+@container stage (min-aspect-ratio: 23/20) {
     .calc.office {
         grid-template-columns: minmax(250px, 1fr) minmax(0, 1.35fr);
         grid-template-rows: auto auto minmax(0, 1fr);
@@ -253,7 +266,7 @@ dialog .sh-head .ib:focus-visible { outline-color: transparent; box-shadow: 0 0 
     }
     .calc.office.left-hand { grid-template-columns: minmax(0, 1.35fr) minmax(250px, 1fr); grid-template-areas: "disp tape" "strip tape" "pad tape"; }
     .calc.office .handle { display: none; }
-    .calc.office .strip { height: clamp(70px, 15cqh, 112px); }
+    .calc.office .strip { height: clamp(70px, 15cqh, 180px); }
 }
 @container stage (max-height: 460px) and (min-aspect-ratio: 23/20) {
     .calc.office, .calc.office.left-hand {
@@ -489,3 +502,27 @@ kbd { display: inline-block; min-width: 1.8em; padding: 2px 6px; border-radius: 
     [data-theme="schule"] .fnpad .k .alt, [data-theme="retro"] .fnpad .k .alt { height: 25%; }
     [data-theme="schule"] .fnpad .k.has-alt .lb, [data-theme="retro"] .fnpad .k.has-alt .lb { top: 25%; }
 }
+
+/* Am Computer: jedes Gerät in seinen Proportionen, so groß wie möglich */
+@media (pointer: fine) and (min-width: 760px) and (min-height: 560px) {
+    .calc.basic { width: min(100%, 64cqh); }
+    @container stage (min-aspect-ratio: 11/10) {
+        .calc.basic { grid-template-areas: "deco" "disp" "pad"; grid-template-rows: auto minmax(110px, 1fr) minmax(0, 2.6fr); grid-template-columns: minmax(0, 1fr); }
+        .calc.sci { width: min(100%, 175cqh); }
+        .calc.office { width: min(100%, 185cqh); }
+    }
+    @container stage (max-aspect-ratio: 11/10) { .calc.sci { width: min(100%, 60cqh); } }
+}
+
+/* Große Bildschirme: Statuszeile, Schalter, Typenschild und Streifen wachsen mit */
+.ind { font-size: clamp(11px, 1.9cqmin, 19px); min-height: clamp(18px, 2.6cqmin, 28px); }
+.chip { font-size: clamp(11.5px, 1.9cqmin, 19px); padding: .35em .8em; }
+.deco .brand b { font-size: clamp(15px, 2cqmin, 22px); }
+.deco .brand span { font-size: clamp(9px, 1.2cqmin, 12px); }
+.deco .solar i { width: clamp(18px, 2.4cqmin, 28px); height: clamp(14px, 1.8cqmin, 20px); }
+.tape-list { font-size: calc(clamp(15px, 2.5cqmin, 26px) * var(--tape-size, 1)); }
+.tape-head .ttl { font-size: clamp(14px, 2.2cqmin, 21px); }
+.tape-head .ttl small { font-size: clamp(11.5px, 1.7cqmin, 16px); }
+.tape-head .ib { width: clamp(38px, 5cqmin, 52px); height: clamp(38px, 5cqmin, 52px); }
+.tape-head .ib svg.i { width: clamp(22px, 2.8cqmin, 28px); height: clamp(22px, 2.8cqmin, 28px); }
+.tl.tot::after { font-size: .7em; }

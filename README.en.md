@@ -35,7 +35,7 @@ Upload `calc-install.php`, open it in the browser, done. Or unpack the ZIP and u
 
 <p align="center"><img src="docs/en/computer.png" alt="Office mode on a computer: paper tape on the left, desk calculator on the right" width="820"></p>
 
-<sub>Screenshots of version 1.0.0. The calculations are made up.</sub>
+<sub>Screenshots of version 1.0.1. The calculations are made up.</sub>
 
 ## The three modes
 

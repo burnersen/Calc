@@ -192,8 +192,8 @@
             // verfügbare Höhe: ohne Innenabstand und Statuszeile; zwei Zeilen müssen hineinpassen
             const cs = getComputedStyle(this.disp);
             const avail = H - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - (this.ind.hidden ? 0 : this.ind.offsetHeight) - 4;
-            const big = Math.round(Math.max(20, Math.min(basic ? 92 : 64, avail * 0.6 / 1.12, Math.max(28, H * (basic ? 0.42 : 0.36))) * (lcd ? 0.86 : 1)));
-            const small = Math.round(Math.max(13, Math.min(30, avail * 0.36 / 1.25, Math.max(15, H * (basic ? 0.17 : 0.2)))));
+            const big = Math.round(Math.max(20, Math.min(basic ? 170 : 130, avail * 0.6 / 1.12, Math.max(28, H * (basic ? 0.42 : 0.36))) * (lcd ? 0.86 : 1)));
+            const small = Math.round(Math.max(13, Math.min(56, avail * 0.36 / 1.25, Math.max(15, H * (basic ? 0.17 : 0.2)))));
             const c = this.calc;
             const bigEl = basic && !(c.shown || c.err) ? this.dExpr : this.dRes;
             const smallEl = bigEl === this.dExpr ? this.dRes : this.dExpr;
@@ -450,7 +450,7 @@
             if (!H) return;
             const cs = getComputedStyle(this.disp);
             const avail = H - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - this.ind.offsetHeight - 4;
-            const size = Math.round(Math.max(20, Math.min(64, avail / 1.15)) * (isLcd() ? 0.88 : 1));
+            const size = Math.round(Math.max(20, Math.min(150, avail / 1.15)) * (isLcd() ? 0.88 : 1));
             C.ui.fit(this.dRes, size, size * 0.4);
         }
 

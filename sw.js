@@ -4,8 +4,8 @@
    ändert sich eine Datei, ändert sich BUILD, und der Browser holt die neue Version im Hintergrund.
    Einstellungen, Verlauf und Streifen liegen nicht hier, sondern im Speicher des Browsers (localStorage). */
 'use strict';
-const VERSION = '1.0.0';
-const BUILD = '897513ec65a7';
+const VERSION = '1.0.1';
+const BUILD = 'b7b52291e9c2';
 const FILES = [
     './',
     'index.html',

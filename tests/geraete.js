@@ -22,7 +22,7 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const OUT = (process.env.OUT || require('os').tmpdir() + '/calc-geraete') + '/';
 const SHOTS = !!process.env.SHOTS;
-const DEVS = (process.env.DEVS || 'iPhone SE,iPhone 15 Pro Max,Pixel 7,Galaxy S9+,iPad Mini,iPad Pro 11,Desktop,Laptop').split(',');
+const DEVS = (process.env.DEVS || 'iPhone SE,iPhone 15 Pro Max,Pixel 7,Galaxy S9+,Galaxy Tab S4,iPad Mini,iPad (gen 7),iPad Pro 11,Desktop,Desktop FHD,Laptop').split(',');
 const THEMES = (process.env.THEMES || 'klar,nacht,aurora,schule,retro,papier,kontrast').split(',');
 const MODES = (process.env.MODES || 'basic,sci,office').split(',');
 fs.mkdirSync(OUT, { recursive: true });
@@ -45,6 +45,7 @@ function serve() {
 function devOpts(dn, land) {
     let o;
     if (dn === 'Desktop') o = { viewport: { width: 1440, height: 900 } };
+    else if (dn === 'Desktop FHD') o = { viewport: { width: 1920, height: 1080 } };
     else if (dn === 'Laptop') o = { viewport: { width: 1280, height: 680 } };
     else o = Object.assign({}, devices[dn]);
     delete o.defaultBrowserType;
@@ -89,7 +90,7 @@ async function check(page, mode) {
     const report = [];
     let problems = 0;
     for (const dn of DEVS) {
-        for (const land of dn === 'Desktop' || dn === 'Laptop' ? [false] : [false, true]) {
+        for (const land of /Desktop|Laptop/.test(dn) ? [false] : [false, true]) {
             const ctx = await br.newContext(Object.assign(devOpts(dn, land), { serviceWorkers: 'block' }));
             const page = await ctx.newPage();
             const errors = [];
